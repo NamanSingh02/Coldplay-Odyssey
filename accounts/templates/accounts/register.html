@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="form-container">
+  <h2>Create New Account</h2>
+  <form method="post">
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" name="username" required><br><br>
+      
+      <label for="password">Password:</label>
+      <input type="password" name="password" required><br><br>
+      
+      <label for="confirm_password">Confirm Password:</label>
+      <input type="password" name="confirm_password" required><br><br>
+      
+      <button type="submit">Register</button>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+</div>
+{% endblock %}

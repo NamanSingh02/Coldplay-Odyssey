@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block content %}
+<!-- Optional: You can add a search bar/form here if needed -->
+<form method="get" style="text-align: center; margin: 20px;">
+    <input type="text" name="q" placeholder="Search videos..." value="{{ query }}">
+    <button type="submit">Search</button>
+    <a href="{% url 'dashboard' %}">
+        <button type="button">Clear</button>
+    </a>
+</form>
+
+<!-- Video Grid -->
+<div class="videos-grid">
+    {% for video in videos %}
+      <div class="video-wrapper">
+        <div class="video-container" onclick="window.open('{{ video.link }}', '_blank')">
+          {% comment %}
+          We assume that the video.link is something like:
+          https://www.youtube.com/watch?v=VIDEO_ID
+          We'll extract the VIDEO_ID to show the thumbnail.
+          {% endcomment %}
+          {% if video.link %}
+            {% with video.link|cut:"https://www.youtube.com/watch?v=" as video_id %}
+              <img src="https://img.youtube.com/vi/{{ video_id }}/hqdefault.jpg" alt="{{ video.name }}">
+            {% endwith %}
+          {% else %}
+            <p style="color: #fff;">No Thumbnail</p>
+          {% endif %}
+        </div>
+        <div class="video-title">
+          <a href="{{ video.link }}" target="_blank">{{ video.name }}</a>
+        </div>
+      </div>
+    {% empty %}
+      <p>No videos found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
